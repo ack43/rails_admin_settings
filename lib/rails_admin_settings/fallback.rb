@@ -8,7 +8,7 @@ module RailsAdminSettings
     end
 
     def inspect
-      "#<RailsAdminSettings::Fallback ns: #{@ns.inspect}, fb: #{@fb.inspect}>"
+      "#<RailsAdminSettings::Fallback ns: #{@ns.inspect}, fb: #{@fb.inspect}>".freeze
     end
 
     def method_missing(*args)

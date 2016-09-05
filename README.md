@@ -1,7 +1,6 @@
-# RailsAdminSettings
+# AckRailsAdminSettings
 
-[![Build Status](https://secure.travis-ci.org/rs-pro/rails_admin_settings.png?branch=master)](http://travis-ci.org/rs-pro/rails_admin_settings)
-[![Dependency Status](https://gemnasium.com/rs-pro/rails_admin_settings.svg)](https://gemnasium.com/rs-pro/rails_admin_settings)
+Fork of [RailsAdminSettings](https://github.com/rs-pro/rails_admin_settings)
 
 App settings editable via RailsAdmin with support for ActiveRecord and Mongoid.
 
@@ -87,6 +86,13 @@ Settings can have namespaces (useful for locale, etc)
     > "123"
 
 
+## Cache control
+
+  Settings.content_block_1(kind: 'html', default: 'test', cache_keys: ["block_name1", "block_name2", :other_block])
+  Settings.content_block_1(kind: 'html', default: 'test', cache_keys: "block_name1 block_name2 other_block")
+
+And Rails cache for this keys will be delete after each saving ('clear_cache' method). Also you can edit it in rails_admin panel.
+
 ## Value types
 
 Supported types:
@@ -105,6 +111,8 @@ Supported types:
     file (requires paperclip or carrierwave)
     url (requires addressable)
     domain (requires addressable)
+    js (requires codemirror)
+    css (requires codemirror)
 
 
 Strings and html support following replacement patterns:

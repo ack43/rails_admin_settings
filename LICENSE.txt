@@ -1,4 +1,4 @@
-Copyright (c) 2013 Gleb Tv
+Copyright (c) 2016 Alexander Kiseliev
 
 MIT License
 

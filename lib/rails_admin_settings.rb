@@ -56,12 +56,12 @@ module RailsAdminSettings
         RailsAdminSettings::Setting.send(:include, ::Mongoid::History::Trackable)
         RailsAdminSettings::Setting.send(:track_history, {track_create: true, track_destroy: true})
       else
-        puts "[rails_admin_settings] WARN unable to track_history: Mongoid::History not loaded!"
+        puts "[rails_admin_settings] WARN unable to track_history: Mongoid::History not loaded!".freeze
       end
       if ::Mongoid.const_defined?('Userstamp')
         RailsAdminSettings::Setting.send(:include, ::Mongoid::Userstamp)
       else
-        puts "[rails_admin_settings] WARN unable to track_history: Mongoid::Userstamp not loaded!"
+        puts "[rails_admin_settings] WARN unable to track_history: Mongoid::Userstamp not loaded!".freeze
       end
     elsif active_record?
       if defined?(PaperTrail) && PaperTrail::Version.table_exists?

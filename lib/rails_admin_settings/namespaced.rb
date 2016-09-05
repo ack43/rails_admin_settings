@@ -18,7 +18,7 @@ module RailsAdminSettings
       false
     end
     def inspect
-      "#<RailsAdminSettings::Namespaced name: #{@name.inspect}, fallback: #{@fallback.inspect}, loaded: #{@loaded}>"
+      "#<RailsAdminSettings::Namespaced name: #{@name.inspect}, fallback: #{@fallback.inspect}, loaded: #{@loaded}>".freeze
     end
     def pretty_inspect
       inspect
@@ -78,6 +78,16 @@ module RailsAdminSettings
       if !options[:type].nil? && options[:type] == 'yaml' && !value.nil?
         if value.class.name != 'String'
           value = value.to_yaml
+        end
+      end
+
+      unless options[:cache_keys].nil?
+        if options[:cache_keys].class.name == 'String'
+          options[:cache_keys_str] = options.delete(:cache_keys)
+        elsif options[:cache_keys].class.name == 'Array'
+          options[:cache_keys_str] = options.delete(:cache_keys).map { |k| k.to_s }.join(" ")
+        else
+          options[:cache_keys_str] = options.delete(:cache_keys).to_s
         end
       end
 

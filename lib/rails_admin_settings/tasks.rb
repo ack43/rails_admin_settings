@@ -11,7 +11,7 @@ namespace :settings do
     Rake::Task['environment'].invoke
   end
 
-  desc "Dump settings to config/settings.yml; use rake settings:dump[production] to create env-specific template"
+  desc "Dump settings to config/settings.yml; use rake settings:dump[production] to create env-specific template".freeze
   task :dump, [:as_env] => ['settings:require'] do |t, args|
     if args.empty? || args[:as_env].blank?
       path = Settings.root_file_path.join('config/settings.yml')
@@ -21,14 +21,14 @@ namespace :settings do
     RailsAdminSettings::Dumper.dump(path)
     puts "dumped settings to #{path}"
   end
-  
-  desc "Load settings from config/settings.yml without overwriting current values"
+
+  desc "Load settings from config/settings.yml without overwriting current values".freeze
   task :load => ['settings:require'] do
     Settings.apply_defaults!(Rails.root.join("config/settings.#{Rails.env.to_s}.yml"), true)
     Settings.apply_defaults!(Rails.root.join('config/settings.yml'), true)
   end
 
-  desc "Delete all settings"
+  desc "Delete all settings".freeze
   task :delete => ['settings:require'] do
     Settings.destroy_all!
   end

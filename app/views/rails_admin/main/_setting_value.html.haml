@@ -10,16 +10,16 @@
   :ruby
     #binding.pry
     js_data = {
-      csspath: asset_path('ckeditor/plugins/codemirror/css/codemirror.min.css'),
-      jspath: asset_path('ckeditor/plugins/codemirror/js/codemirror.min.js'),
+      csspath: asset_path('codemirror.css'),
+      jspath: asset_path('codemirror.js'),
       options:  {
         mode: 'htmlmixed',
         theme: 'monokai',
         lineNumbers: true
       },
       locations: {
-        mode: asset_path('ckeditor/plugins/codemirror/js/codemirror.mode.htmlmixed.min.js'),
-        theme: asset_path('ckeditor/plugins/codemirror/theme/monokai.css')
+        mode: asset_path('codemirror/modes/htmlmixed.js'),
+        theme: asset_path('codemirror/themes/monokai.css')
       }
     }
 
@@ -40,3 +40,65 @@
     .alert.alert-error
       = t('admin.settings.no_ckeditor_detected')
     = form.text_area :raw, :value => field.value, :rows => 10, :cols => 80
+
+
+- elsif @object.type == 'enum'
+  -# temporary
+  - unless @object.enum_multiple
+    = form.select :raw, @object.enum_collection, { include_blank: true, selected: @object.raw }, { data: { enumeration: true }, placeholder: t('admin.misc.search') }
+  - else
+    :ruby
+      js_data = {
+        xhr: false,
+        sortable: false,
+        cacheAll: true,
+        regional: {
+          chooseAll: t("admin.misc.chose_all"),
+          chosen: t("admin.misc.chosen", name: @object.enum_label),
+          clearAll: t("admin.misc.clear_all"),
+          search: t("admin.misc.search"),
+          up: t("admin.misc.up"),
+          down: t("admin.misc.down")
+        }
+      }
+    = form.select :raw, @object.enum_collection, { selected: @object.raw, object: @object }, {data: { filteringmultiselect: true, options: js_data.to_json }, multiple: true}
+
+
+- elsif @object.type == 'js'
+  :ruby
+    #binding.pry
+    js_data = {
+      csspath: asset_path('codemirror.css'),
+      jspath: asset_path('codemirror.js'),
+      options:  {
+        mode: 'js',
+        theme: 'night',
+        lineNumbers: true
+      },
+      locations: {
+        mode: asset_path('codemirror/modes/jsx.js'),
+        theme: asset_path('codemirror/themes/night.css')
+      }
+    }
+
+  = form.text_area field.method_name, field.html_attributes.reverse_merge(data: { richtext: 'codemirror', options: js_data.to_json }).reverse_merge({ value: field.form_value })
+
+
+- elsif @object.type == 'css'
+  :ruby
+    #binding.pry
+    js_data = {
+      csspath: asset_path('codemirror.css'),
+      jspath: asset_path('codemirror.js'),
+      options:  {
+        mode: 'css',
+        theme: 'night',
+        lineNumbers: true
+      },
+      locations: {
+        mode: asset_path('codemirror/modes/css.js'),
+        theme: asset_path('codemirror/themes/night.css')
+      }
+    }
+
+  = form.text_area field.method_name, field.html_attributes.reverse_merge(data: { richtext: 'codemirror', options: js_data.to_json }).reverse_merge({ value: field.form_value })

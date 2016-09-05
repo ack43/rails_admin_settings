@@ -145,7 +145,7 @@ module RailsAdminSettings
       elsif file_kind?
         file.url
       else
-        puts "[rails_admin_settings] Unknown field kind: #{kind}"
+        puts "[rails_admin_settings] Unknown field kind: #{kind}".freeze
         nil
       end
     end

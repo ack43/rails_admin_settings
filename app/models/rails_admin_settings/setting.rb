@@ -13,7 +13,7 @@ module RailsAdminSettings
     end
 
     if RailsAdminSettings.active_record?
-      self.table_name = "rails_admin_settings"
+      self.table_name = "rails_admin_settings".freeze
     end
 
     scope :enabled, -> { where(enabled: true) }
@@ -72,7 +72,7 @@ module RailsAdminSettings
     if Object.const_defined?('RailsAdmin')
       include RailsAdminSettings::RailsAdminConfig
     else
-      puts "[rails_admin_settings] Rails Admin not detected -- put this gem after rails_admin in gemfile"
+      puts "[rails_admin_settings] Rails Admin not detected -- put this gem after rails_admin in gemfile".freeze
     end
   end
 end

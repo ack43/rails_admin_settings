@@ -17,8 +17,11 @@ module RailsAdminSettings
       'image',
       'url',
       'domain',
-      'color'
-    ]
+      'color',
+
+      'js',
+      'css'
+    ].freeze
   end
 
   def self.types

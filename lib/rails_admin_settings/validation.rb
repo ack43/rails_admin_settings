@@ -41,7 +41,7 @@ module RailsAdminSettings
 
       base.validate if: :file_kind? do
         unless Settings.file_uploads_supported
-          raise '[rails_admin_settings] File kind requires either CarrierWave or Paperclip. Check that rails_admin_settings is below them in Gemfile'
+          raise '[rails_admin_settings] File kind requires either CarrierWave or Paperclip. Check that rails_admin_settings is below them in Gemfile'.freeze
         end
       end
 

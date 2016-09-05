@@ -1,5 +1,7 @@
 module RailsAdminSettings
+
   module RailsAdminConfig
+
     def self.included(base)
       if base.respond_to?(:rails_admin)
         base.rails_admin do
@@ -17,9 +19,9 @@ module RailsAdminSettings
             field :raw do
               pretty_value do
                 if bindings[:object].file_kind?
-                  "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'>#{CGI::escapeHTML(bindings[:object].to_path)}</a>".html_safe
+                  "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'>#{CGI::escapeHTML(bindings[:object].to_path)}</a>".html_safe.freeze
                 elsif bindings[:object].image_kind?
-                  "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'><img src='#{CGI::escapeHTML(bindings[:object].file.url)}' /></a>".html_safe
+                  "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'><img src='#{CGI::escapeHTML(bindings[:object].file.url)}' /></a>".html_safe.freeze
                 else
                   value
                 end
@@ -42,7 +44,7 @@ module RailsAdminSettings
               help false
             end
             field :raw do
-              partial "setting_value"
+              partial "setting_value".freeze
               visible do
                 !bindings[:object].upload_kind?
               end
@@ -54,11 +56,19 @@ module RailsAdminSettings
                 end
               end
             end
+            field :cache_keys_str, :text do
+              visible do
+                render_object = (bindings[:controller] || bindings[:view])
+                render_object and render_object.current_user.admin?
+              end
+            end
           end
         end
       else
         puts "[rails_admin_settings] Problem: model does not respond to rails_admin: this should not happen"
       end
     end
+
   end
+
 end

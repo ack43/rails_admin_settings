@@ -65,7 +65,7 @@ class Settings < BasicObject
 
     def apply_defaults!(file, verbose = false)
       if File.file?(file)
-        puts "[settings] Loading from #{file}" if verbose
+        puts "[settings] Loading from #{file}".freeze if verbose
         yaml = YAML.load(File.read(file), safe: true)
         yaml.each_pair do |namespace, vals|
           vals.symbolize_keys!
@@ -74,13 +74,13 @@ class Settings < BasicObject
             val.symbolize_keys!
             if !val[:kind].nil? && (val[:kind] == 'file' || val[:kind] == 'image')
               unless @@file_uploads_supported
-                ::Kernel.raise ::RailsAdminSettings::PersistenceException, "Fatal: setting #{key} is #{val[:type]} but file upload engine is not detected"
+                ::Kernel.raise ::RailsAdminSettings::PersistenceException, "Fatal: setting #{key} is #{val[:type]} but file upload engine is not detected".freeze
               end
               value = File.open(root_file_path.join(val.delete(:value)))
             else
               value = val.delete(:value)
             end
-            puts "#{key} - default '#{value}' current '#{Settings.get(key).raw}'" if verbose
+            puts "#{key} - default '#{value}' current '#{Settings.get(key).raw}'".freeze if verbose
             n.set(key, value, val.merge(overwrite: false))
           end
           n.unload!
@@ -111,4 +111,3 @@ class Settings < BasicObject
     end
   end
 end
-
