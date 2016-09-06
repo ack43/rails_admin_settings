@@ -12,6 +12,16 @@ module RailsAdminSettings
       include RailsAdminSettings::Mongoid
     end
 
+    if defined?(Hancock)
+      include Hancock::RailsAdminPatch
+      def self.manager_can_default_actions
+        [:show, :read, :edit, :update]
+      end
+      def manager_cannot_actions
+        [:new, :create, :delete, :destroy]
+      end
+    end
+
     if RailsAdminSettings.active_record?
       self.table_name = "rails_admin_settings".freeze
     end
