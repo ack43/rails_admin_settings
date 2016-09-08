@@ -16,7 +16,7 @@ module RailsAdminSettings
 
       field :cache_keys_str, type: String, default: ""
       def cache_keys
-        cache_keys_str.split(" ").map { |k| k.strip }.reject { |k| k.blank? }
+        cache_keys_str.split(/\s+/).map { |k| k.strip }.reject { |k| k.blank? }
       end
 
       after_save :clear_cache
