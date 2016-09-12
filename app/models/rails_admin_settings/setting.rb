@@ -10,15 +10,34 @@ module RailsAdminSettings
     #binding.pry
     if RailsAdminSettings.mongoid?
       include RailsAdminSettings::Mongoid
+
+      if defined?(RailsAdminComments)
+        include RailsAdminComments::Commentable
+        include RailsAdminComments::ModelCommentable
+      end
     end
 
     if defined?(Hancock)
       include Hancock::RailsAdminPatch
+
       def self.manager_can_default_actions
         [:show, :read, :edit, :update]
       end
-      def manager_cannot_actions
+      def self.manager_can_add_actions
+        ret = []
+        ret << :model_accesses if defined?(RailsAdminUserAbilities)
+        ret += [:comments, :model_comments] if defined?(RailsAdminComments)
+        ret.freeze
+      end
+      def self.manager_cannot_actions
         [:new, :create, :delete, :destroy]
+      end
+
+      def self.rails_admin_add_visible_actions
+        ret = []
+        ret << :model_accesses if defined?(RailsAdminUserAbilities)
+        ret += [:comments, :model_comments] if defined?(RailsAdminComments)
+        ret.freeze
       end
     end
 
