@@ -53,32 +53,32 @@ module RailsAdminSettings
 
     if mongoid?
       if ::Mongoid.const_defined?('History')
-        RailsAdminSettings::Setting.send(:include, ::Mongoid::History::Trackable)
-        RailsAdminSettings::Setting.send(:track_history, {track_create: true, track_destroy: true})
-        if Gem::Version.new(Rails.version) >= Gem::Version.new('5.0.0')
-          RailsAdminSettings::Setting.send(:belongs_to,
-            :modifier,
-            class_name: ::Mongoid::History.modifier_class_name,
-            optional: true
-          )
-        end
+        # RailsAdminSettings::Setting.send(:include, ::Mongoid::History::Trackable)
+        # RailsAdminSettings::Setting.send(:track_history, {track_create: true, track_destroy: true})
+        # if Gem::Version.new(Rails.version) >= Gem::Version.new('5.0.0')
+        #   RailsAdminSettings::Setting.send(:belongs_to,
+        #     :modifier,
+        #     class_name: ::Mongoid::History.modifier_class_name,
+        #     optional: true
+        #   )
+        # end
       else
         puts "[rails_admin_settings] WARN unable to track_history: Mongoid::History not loaded!".freeze
       end
       if ::Mongoid.const_defined?('Userstamp')
-        RailsAdminSettings::Setting.send(:include, ::Mongoid::Userstamp)
-        if Gem::Version.new(Rails.version) >= Gem::Version.new('5.0.0')
-          RailsAdminSettings::Setting.send(:belongs_to,
-            ::Mongoid::Userstamp.config.creator_field,
-            class_name: ::Mongoid::Userstamp.config.user_model_name,
-            optional: true
-          )
-          RailsAdminSettings::Setting.send(:belongs_to,
-            ::Mongoid::Userstamp.config.updater_field,
-            class_name: ::Mongoid::Userstamp.config.user_model_name,
-            optional: true
-          )
-        end
+        # RailsAdminSettings::Setting.send(:include, ::Mongoid::Userstamp)
+        # if Gem::Version.new(Rails.version) >= Gem::Version.new('5.0.0')
+        #   RailsAdminSettings::Setting.send(:belongs_to,
+        #     ::Mongoid::Userstamp.config.creator_field,
+        #     class_name: ::Mongoid::Userstamp.config.user_model_name,
+        #     optional: true
+        #   )
+        #   RailsAdminSettings::Setting.send(:belongs_to,
+        #     ::Mongoid::Userstamp.config.updater_field,
+        #     class_name: ::Mongoid::Userstamp.config.user_model_name,
+        #     optional: true
+        #   )
+        # end
       else
         puts "[rails_admin_settings] WARN unable to track_history: Mongoid::Userstamp not loaded!".freeze
       end
