@@ -90,7 +90,7 @@ module RailsAdminSettings
           options[:cache_keys_str] = options.delete(:cache_keys).to_s
         end
       end
-
+      
       options.merge!(value: value)
       if @locked
         write_to_database(key, options)
