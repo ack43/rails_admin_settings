@@ -20,6 +20,7 @@ module RailsAdminSettings
       end
 
       after_save :clear_cache
+      after_destroy :clear_cache
       def clear_cache
         cache_keys.each do |k|
           Rails.cache.delete(k)
