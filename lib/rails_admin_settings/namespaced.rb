@@ -74,6 +74,12 @@ module RailsAdminSettings
       load! unless @locked
       key = key.to_s
       options.symbolize_keys!
+      if options[:cache].present?
+        _cache = options.delete(:cache)
+      else
+        _cache = (name != @@ns_default)
+      end
+
 
       if !options[:type].nil? && options[:type] == 'yaml' && !value.nil?
         if value.class.name != 'String'
@@ -81,7 +87,11 @@ module RailsAdminSettings
         end
       end
 
-      unless options[:cache_keys].nil?
+      if options[:cache_keys].nil?
+        if _cache
+          options[:cache_keys_str] = name.underscore
+        end
+      else
         if options[:cache_keys].class.name == 'String'
           options[:cache_keys_str] = options.delete(:cache_keys)
         elsif options[:cache_keys].class.name == 'Array'
@@ -90,7 +100,7 @@ module RailsAdminSettings
           options[:cache_keys_str] = options.delete(:cache_keys).to_s
         end
       end
-      
+
       options.merge!(value: value)
       if @locked
         write_to_database(key, options)

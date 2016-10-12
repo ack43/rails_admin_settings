@@ -1,3 +1,16 @@
+## 1.2.0
+
+- Default cache key is underscored namespace. Not work for default namespace without {cache: true}.
+
+## 1.1.5
+
+- HancockCMS support.
+- Caching.
+
+## 1.1.4
+
+- Fork from rs-pro repo.
+
 ## 1.1.3
 
 - Fix for namespace tabs when database table does not exist yet.
