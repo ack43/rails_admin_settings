@@ -77,7 +77,7 @@ module RailsAdminSettings
       if options[:cache].present?
         _cache = options.delete(:cache)
       else
-        _cache = (name != Settings.ns_default)
+        _cache = (name != ::Settings.ns_default)
       end
 
 
