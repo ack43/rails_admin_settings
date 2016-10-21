@@ -74,12 +74,11 @@ module RailsAdminSettings
       load! unless @locked
       key = key.to_s
       options.symbolize_keys!
-      if options[:cache].present?
+      if options.key?(:cache)
         _cache = options.delete(:cache)
       else
         _cache = (name != ::Settings.ns_default)
       end
-
 
       if !options[:type].nil? && options[:type] == 'yaml' && !value.nil?
         if value.class.name != 'String'
