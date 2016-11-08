@@ -26,7 +26,7 @@ module RailsAdminSettings
 
     def value
       if upload_kind?
-        if file?
+        if file_kind?
           file.url
         else
           nil
