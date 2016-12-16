@@ -1,3 +1,9 @@
+## 1.2.1
+
+- Remove HancockCMS support (moved into CMS and cache plugin for CMS).
+- Cache is still here but only base methods.
+- Options :cache_key and :cache_keys are working (not the same time but both).
+
 ## 1.2.0
 
 - Default cache key is underscored namespace. Not work for default namespace without {cache: true}.

@@ -17,36 +17,6 @@ module RailsAdminSettings
       end
     end
 
-    if defined?(Hancock)
-      if defined?(Hancock::RailsAdminPatch)
-        include Hancock::RailsAdminPatch
-
-        def self.manager_can_default_actions
-          [:show, :read, :edit, :update]
-        end
-        def self.manager_can_add_actions
-          ret = []
-          ret << :model_accesses if defined?(RailsAdminUserAbilities)
-          ret += [:comments, :model_comments] if defined?(RailsAdminComments)
-          ret.freeze
-        end
-        def self.manager_cannot_actions
-          [:new, :create, :delete, :destroy]
-        end
-
-        def self.rails_admin_add_visible_actions
-          ret = []
-          ret << :model_accesses if defined?(RailsAdminUserAbilities)
-          ret += [:comments, :model_comments] if defined?(RailsAdminComments)
-          ret.freeze
-        end
-      end
-
-      if defined?(Hancock::Cacheable)
-        include Hancock::Cacheable
-      end
-    end
-
     if RailsAdminSettings.active_record?
       self.table_name = "rails_admin_settings".freeze
     end

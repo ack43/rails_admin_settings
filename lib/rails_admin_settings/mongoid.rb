@@ -14,18 +14,17 @@ module RailsAdminSettings
       field :label, type: String
       index({ns: 1, key: 1}, {unique: true, sparse: true})
 
-      unless defined?(Hancock::Cacheable)
-        field :cache_keys_str, type: String, default: ""
-        def cache_keys
-          cache_keys_str.split(/\s+/).map { |k| k.strip }.reject { |k| k.blank? }
-        end
+      field :cache_keys_str, type: String, default: ""
+      def cache_keys
+        cache_keys_str.split(/\s+/).map { |k| k.strip }.reject { |k| k.blank? }
+      end
 
-        after_save :clear_cache
-        after_destroy :clear_cache
-        def clear_cache
-          cache_keys.each do |k|
-            Rails.cache.delete(k)
-          end
+      after_touch :clear_cache
+      after_save :clear_cache
+      after_destroy :clear_cache
+      def clear_cache
+        cache_keys.each do |k|
+          Rails.cache.delete(k)
         end
       end
 

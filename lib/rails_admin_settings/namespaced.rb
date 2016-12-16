@@ -86,6 +86,8 @@ module RailsAdminSettings
         end
       end
 
+      options[:cache_keys] ||= options[:cache_key]
+
       if options[:cache_keys].nil?
         if _cache
           options[:cache_keys_str] = name.underscore
