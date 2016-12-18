@@ -86,7 +86,7 @@ module RailsAdminSettings
         end
       end
 
-      options[:cache_keys] ||= options[:cache_key]
+      options[:cache_keys] ||= options.delete :cache_key
 
       if options[:cache_keys].nil?
         if _cache
