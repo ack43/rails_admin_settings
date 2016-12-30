@@ -13,10 +13,22 @@ module RailsAdminSettings
             else
               field :enabled
             end
-            field :kind
-            field :ns
+            field :kind do
+              searchable true
+            end
+            field :ns do
+              searchable true
+            end
             field :name
+            field :label do
+              visible false
+              searchable true
+            end
+            field :key do
+              searchable true
+            end
             field :raw do
+              searchable true
               pretty_value do
                 if bindings[:object].file_kind?
                   "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'>#{CGI::escapeHTML(bindings[:object].to_path)}</a>".html_safe.freeze
@@ -27,6 +39,9 @@ module RailsAdminSettings
                 end
               end
             end
+            field :cache_keys_str, :text do
+              searchable true
+            end
             if ::Settings.table_exists?
               nss = ::RailsAdminSettings::Setting.pluck(:ns).uniq.map { |c| "ns_#{c.gsub('-', '_')}".to_sym }
               scopes([nil] + nss)
@@ -35,6 +50,14 @@ module RailsAdminSettings
 
           edit do
             field :enabled
+            field :ns  do
+              read_only true
+              help false
+            end
+            field :key  do
+              read_only true
+              help false
+            end
             field :label do
               read_only true
               help false
@@ -56,12 +79,14 @@ module RailsAdminSettings
                 end
               end
             end
+
             field :cache_keys_str, :text do
               visible do
                 render_object = (bindings[:controller] || bindings[:view])
                 render_object and render_object.current_user.admin?
               end
             end
+
           end
         end
       else
