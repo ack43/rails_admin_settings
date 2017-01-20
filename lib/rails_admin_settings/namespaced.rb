@@ -87,18 +87,17 @@ module RailsAdminSettings
       end
 
       options[:cache_keys] ||= options.delete :cache_key
+      _cache_keys = options.delete :cache_keys
 
-      if options[:cache_keys].nil?
+      if _cache_keys.nil?
         if _cache
           options[:cache_keys_str] = name.underscore
         end
       else
-        if options[:cache_keys].class.name == 'String'
-          options[:cache_keys_str] = options.delete(:cache_keys)
-        elsif options[:cache_keys].class.name == 'Array'
-          options[:cache_keys_str] = options.delete(:cache_keys).map { |k| k.to_s }.join(" ")
+        if _cache_keys.is_a?(Array)
+          options[:cache_keys_str] = _cache_keys.map { |k| k.to_s }.join(" ")
         else
-          options[:cache_keys_str] = options.delete(:cache_keys).to_s
+          options[:cache_keys_str] = _cache_keys.to_s
         end
       end
 

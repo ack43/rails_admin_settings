@@ -99,7 +99,9 @@ module RailsAdminSettings
 
     def process_text
       text = raw.dup
-      text.gsub!('{{year}}', Time.now.strftime('%Y'))
+      text.gsub!'{{year}}' do
+        Time.now.strftime('%Y')
+      end
       text.gsub! /\{\{year\|([\d]{4})\}\}/ do
         if Time.now.strftime('%Y') == $1
           $1
