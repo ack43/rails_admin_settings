@@ -1,3 +1,8 @@
+## 1.2.2
+- Loadable Settings. You can cancel load some settings for save time, memory, etc. Because of cache, perhaps.
+- DELEGATE :p, :puts and :block_given? for Kernel. Prevent Settings.p and etc
+- Caching improves.
+
 ## 1.2.1
 
 - Remove HancockCMS support (moved into CMS and cache plugin for CMS).
