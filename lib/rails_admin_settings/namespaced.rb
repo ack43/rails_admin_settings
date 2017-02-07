@@ -75,9 +75,11 @@ module RailsAdminSettings
             options.delete(:cache_keys)
             options.delete(:cache_key)
 
-            _old_cache_keys_str = options[:cache_keys_str].strip.split(" ")
-            options[:cache_keys_str] = ("#{v.cache_keys} #{(options[:cache_keys_str] || "")}".strip.split(" ")).uniq
-            options[:overwrite] = true if (options[:cache_keys_str] - _old_cache_keys_str).size == 0
+            _old_cache_keys = options[:cache_keys_str].strip.split(" ")
+            # options[:cache_keys_str] = ("#{v.cache_keys_str} #{(options[:cache_keys_str] || "")}".strip.split(" ")).uniq
+            # options[:cache_keys_str] = ("#{v.cache_keys_str.join(" ")} #{(options[:cache_keys_str] || "")}".strip.split(" ")).uniq
+            options[:cache_keys_str] = (_old_cache_keys + v.cache_keys).uniq
+            options[:overwrite] = true if (options[:cache_keys_str] - _old_cache_keys_str).blank?
             options[:cache_keys_str] = options[:cache_keys_str].map { |k| k.to_s.strip }.join(" ")
           end
         else
@@ -197,7 +199,6 @@ module RailsAdminSettings
     # returns processed setting value
     def method_missing(key, *args, &block)
       return ::Kernel.send(key, *args, &block) if DELEGATE.include?(key)
-
       key = key.to_s
       if key.end_with?('_enabled?')
         key = key[0..-10]
