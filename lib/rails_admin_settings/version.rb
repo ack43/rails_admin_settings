@@ -1,3 +1,3 @@
 module RailsAdminSettings
-  VERSION = "1.2.1.3".freeze
+  VERSION = "1.2.2".freeze
 end

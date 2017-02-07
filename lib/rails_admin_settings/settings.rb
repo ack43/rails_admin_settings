@@ -3,6 +3,9 @@ require 'thread'
 # we are inheriting from BasicObject so we don't get a bunch of methods from
 # Kernel or Object
 class Settings < BasicObject
+
+  DELEGATE = [:puts, :p, :block_given?].freeze
+
   cattr_accessor :file_uploads_supported, :file_uploads_engine
   @@file_uploads_supported = false
   @@file_uploads_engine = false
@@ -106,8 +109,13 @@ class Settings < BasicObject
       set(key, nil, options.merge(overwrite: false))
     end
 
-    def method_missing(*args)
-      get_default_ns.__send__(*args)
+    def method_missing(name, *args, &block)
+      return ::Kernel.send(name, *args, &block) if DELEGATE.include?(name)
+      get_default_ns.__send__(name, *args, &block)
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      DELEGATE.include?(name) or super
     end
   end
 end

@@ -12,11 +12,24 @@ module RailsAdminSettings
       field :key, type: String
       field :raw, type: String
       field :label, type: String
-      index({ns: 1, key: 1}, {unique: true, sparse: true})
+      field :loadable, type: Boolean, default: true
+      scope :loadable, -> {
+        where(loadable: true)
+      }
+      index({ns: 1, key: 1, loadable: 1}, {unique: true, sparse: true})
 
       field :cache_keys_str, type: String, default: ""
       def cache_keys
-        cache_keys_str.split(/\s+/).map { |k| k.strip }.reject { |k| k.blank? }
+        @cache_keys ||= cache_keys_str.split(/\s+/).map { |k| k.strip }.reject { |k| k.blank? }
+      end
+      def add_cache_key(_key)
+        unless has_cache_key?(_key)
+          self.cache_keys_str = (cache_keys + [_key]).uniq.join(" ")
+          @cache_key = nil
+        end
+      end
+      def has_cache_key?(_key)
+        cache_keys.include?(_key)
       end
 
       after_touch :clear_cache

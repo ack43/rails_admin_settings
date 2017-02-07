@@ -10,8 +10,10 @@ module RailsAdminSettings
           list do
             if Object.const_defined?('RailsAdminToggleable')
               field :enabled, :toggle
+              field :loadable, :toggle
             else
               field :enabled
+              field :loadable
             end
             field :kind do
               searchable true
@@ -50,6 +52,7 @@ module RailsAdminSettings
 
           edit do
             field :enabled
+            field :loadable
             field :ns  do
               read_only true
               help false

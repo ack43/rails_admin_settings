@@ -37,6 +37,10 @@ module RailsAdminSettings
       enabled
     end
 
+    def loadable?
+      loadable
+    end
+
     def name
       label.blank? ? key : label
     end

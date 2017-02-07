@@ -47,7 +47,7 @@ module RailsAdminSettings
         require 'geocoder'
         yield
       rescue LoadError => e
-        e.message << " [rails_admin_settings] Please add gem 'validates_email_format_of' to your Gemfile to use email kind settings".freeze
+        e.message << " [rails_admin_settings] Please add gem 'geocoder' to your Gemfile to use geocoder kind settings".freeze
         raise e
       end
     end
