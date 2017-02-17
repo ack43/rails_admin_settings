@@ -80,7 +80,7 @@ module RailsAdminSettings
             # options[:cache_keys_str] = ("#{v.cache_keys_str} #{(options[:cache_keys_str] || "")}".strip.split(" ")).uniq
             # options[:cache_keys_str] = ("#{v.cache_keys_str.join(" ")} #{(options[:cache_keys_str] || "")}".strip.split(" ")).uniq
             options[:cache_keys_str] = (_old_cache_keys + v.cache_keys).uniq
-            options[:overwrite] = true if (options[:cache_keys_str] - _old_cache_keys).blank?
+            options[:overwrite] = true unless (options[:cache_keys_str] - _old_cache_keys).blank?
             options[:cache_keys_str] = options[:cache_keys_str].map { |k| k.to_s.strip }.join(" ")
           end
         else
