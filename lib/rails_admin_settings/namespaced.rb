@@ -239,10 +239,15 @@ module RailsAdminSettings
     end
 
     def write_to_database(key, options)
+      options[:kind] = options[:kind].to_s if options[:kind]
       is_file = !options[:kind].nil? && (options[:kind] == 'image' || options[:kind] == 'file')
+      is_array = !options[:kind].nil? && (options[:kind] == 'array')
       if is_file
         options[:raw] = ''
         file = options[:value]
+      elsif is_array
+        options[:raw] = ''
+        options[:raw_array] = options[:value] if options[:value]
       else
         options[:raw] = options[:value] if options[:value]
       end
@@ -280,6 +285,7 @@ module RailsAdminSettings
         opts = options.dup
         if options[:overwrite] == false && !@settings[key].value.blank?
           opts.delete(:raw)
+          opts.delete(:raw_array)
           opts.delete(:value)
           opts.delete(:enabled)
         end

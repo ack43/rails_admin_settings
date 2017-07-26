@@ -20,9 +20,9 @@ en:
         name: Name
         key: Key
         raw: Value
+        raw_array: Value
         type: Type
         kind: Type
         label: Label
   activerecord:
     <<: *mongoid
-

@@ -41,6 +41,12 @@ module RailsAdminSettings
                 end
               end
             end
+            field :raw_array do
+              searchable true
+              pretty_value do
+                bindings[:object].join("<br>").html_safe
+              end
+            end
             field :cache_keys_str, :text do
               searchable true
             end
@@ -72,7 +78,13 @@ module RailsAdminSettings
             field :raw do
               partial "setting_value".freeze
               visible do
-                !bindings[:object].upload_kind?
+                !bindings[:object].upload_kind? and !bindings[:object].array_kind?
+              end
+            end
+            field :raw_array do
+              partial "setting_value".freeze
+              visible do
+                bindings[:object].array_kind?
               end
             end
             if Settings.file_uploads_supported

@@ -20,7 +20,9 @@ module RailsAdminSettings
       'color',
 
       'js',
-      'css'
+      'css',
+
+      'array'
     ].freeze
   end
 

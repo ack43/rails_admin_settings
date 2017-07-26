@@ -4,6 +4,12 @@ module RailsAdminSettings
       require File.expand_path('../tasks', __FILE__)
     end
 
+
+    initializer "RailsAdminSettings precompile hook", group: :all do |app|
+      app.config.assets.precompile += %w(rails_admin_settings/array.js)
+    end
+
+
     initializer 'RailsAdminSettings Install after_action' do |app|
       require File.dirname(__FILE__) + '/../../app/models/rails_admin_settings/setting.rb'
 

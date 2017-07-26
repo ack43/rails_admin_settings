@@ -11,6 +11,7 @@ module RailsAdminSettings
       field :ns, type: String, default: 'main'
       field :key, type: String
       field :raw, type: String
+      field :raw_array, type: Array
       field :label, type: String
       field :loadable, type: Boolean, default: true
       scope :loadable, -> {

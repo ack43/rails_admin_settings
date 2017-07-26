@@ -1,4 +1,4 @@
-ru:
+fru:
   admin:
     settings:
       label: 'Настройки'
@@ -20,9 +20,9 @@ ru:
         name: Название
         key: Ключ
         raw: Значение
+        raw_array: Значение
         type: Тип
         kind: Тип
         label: Подпись
   activerecord:
     <<: *mongoid
-

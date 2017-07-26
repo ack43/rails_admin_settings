@@ -24,6 +24,10 @@ module RailsAdminSettings
     alias_method :upload_type?, :upload_kind?
     alias_method :html_type?, :html_kind?
 
+    def array_kind?
+      ['array'].include? kind
+    end
+
     def value
       if upload_kind?
         if file_kind?
@@ -31,6 +35,8 @@ module RailsAdminSettings
         else
           nil
         end
+      elsif array_kind?
+        raw_array
       elsif raw.blank? || disabled?
         default_value
       else
@@ -41,6 +47,8 @@ module RailsAdminSettings
     def blank?
       if file_kind?
         file.url.nil?
+      elsif array_kind?
+        raw_array.blank?
       elsif raw.blank? || disabled?
         true
       else
@@ -51,6 +59,8 @@ module RailsAdminSettings
     def to_s
       if yaml_kind? || phone_kind? || integer_kind?
         raw
+      elsif array_kind?
+        raw_array.join(", ")
       else
         value
       end
@@ -82,13 +92,15 @@ module RailsAdminSettings
         end
       elsif phones_kind?
         []
+      elsif array_kind?
+        []
       else
         nil
       end
     end
 
     def default_serializable_value
-      if phones_kind?
+      if phones_kind? or array_kind?
         ''
       elsif boolean_type?
         'false'
@@ -146,6 +158,8 @@ module RailsAdminSettings
         load_phones
       elsif file_kind?
         file.url
+      elsif array_kind?
+        raw_array
       else
         puts "[rails_admin_settings] Unknown field kind: #{kind}".freeze
         nil

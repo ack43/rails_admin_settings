@@ -102,3 +102,16 @@
     }
 
   = form.text_area field.method_name, field.html_attributes.reverse_merge(data: { richtext: 'codemirror', options: js_data.to_json }).reverse_merge({ value: field.form_value })
+
+
+- elsif @object.type == 'array'
+  = javascript_include_tag 'rails_admin_settings/array'
+
+  = form.hidden_field field.method_name, value: "", multiple: true
+  - (field.value || []).each do |val|
+    = render partial: 'rails_admin/main/rails_admin_settings/array/element', locals: {form: form, field: field, val: val}
+
+  - _template = capture do
+    = render partial: 'rails_admin/main/rails_admin_settings/array/element', locals: {form: form, field: field, val: ""}
+  %p
+    = link_to "добавить", "#", class: "rails_admin_settings_array_element_add_link", data: {template: _template.html_safe}
