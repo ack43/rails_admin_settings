@@ -27,6 +27,9 @@ module RailsAdminSettings
     def array_kind?
       ['array'].include? kind
     end
+    def hash_kind?
+      ['hash'].include? kind
+    end
 
     def value
       if upload_kind?
@@ -37,6 +40,8 @@ module RailsAdminSettings
         end
       elsif array_kind?
         raw_array
+      elsif hash_kind?
+        raw_hash
       elsif raw.blank? || disabled?
         default_value
       else
@@ -49,6 +54,8 @@ module RailsAdminSettings
         file.url.nil?
       elsif array_kind?
         raw_array.blank?
+      elsif hash_kind?
+        raw_hash.blank?
       elsif raw.blank? || disabled?
         true
       else
@@ -61,6 +68,8 @@ module RailsAdminSettings
         raw
       elsif array_kind?
         raw_array.join(", ")
+      elsif hash_kind?
+        raw_hash.to_json
       else
         value
       end
@@ -94,13 +103,15 @@ module RailsAdminSettings
         []
       elsif array_kind?
         []
+      elsif hash_kind?
+        {}
       else
         nil
       end
     end
 
     def default_serializable_value
-      if phones_kind? or array_kind?
+      if phones_kind? or array_kind? or hash_kind?
         ''
       elsif boolean_type?
         'false'
@@ -160,6 +171,8 @@ module RailsAdminSettings
         file.url
       elsif array_kind?
         raw_array
+      elsif hash_kind?
+        raw_hash
       else
         puts "[rails_admin_settings] Unknown field kind: #{kind}".freeze
         nil

@@ -115,3 +115,19 @@
     = render partial: 'rails_admin/main/rails_admin_settings/array/element', locals: {form: form, field: field, val: ""}
   %p
     = link_to "добавить", "#", class: "rails_admin_settings_array_element_add_link", data: {template: _template.html_safe}
+
+
+- elsif @object.type == 'hash'
+  = javascript_include_tag 'rails_admin_settings/hash'
+  = stylesheet_link_tag 'rails_admin_settings/hash'
+
+  - (field.value || {}).each_pair do |name, val|
+    = render partial: 'rails_admin/main/rails_admin_settings/hash/element', locals: {form: form, field: field, name: name, val: val}
+
+  - _template = capture do
+    - name, val = "new", ""
+    = render partial: 'rails_admin/main/rails_admin_settings/hash/element', locals: {form: form, field: field, name: name, val: val}
+  %p
+    = link_to "добавить", "#", class: "rails_admin_settings_hash_element_add_link", data: {template: _template.html_safe}
+    / = " | "
+    / = link_to "показать дубликаты", "#", class: "rails_admin_settings_hash_element_duplicate_trigger", data: {text: "скрыть дубликаты"}

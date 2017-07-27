@@ -21,6 +21,7 @@ en:
         key: Key
         raw: Value
         raw_array: Value
+        raw_hash: Value
         type: Type
         kind: Type
         label: Label

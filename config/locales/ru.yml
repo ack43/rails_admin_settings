@@ -1,4 +1,4 @@
-fru:
+ru:
   admin:
     settings:
       label: 'Настройки'
@@ -21,6 +21,7 @@ fru:
         key: Ключ
         raw: Значение
         raw_array: Значение
+        raw_hash: Значение
         type: Тип
         kind: Тип
         label: Подпись

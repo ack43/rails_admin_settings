@@ -22,7 +22,8 @@ module RailsAdminSettings
       'js',
       'css',
 
-      'array'
+      'array',
+      'hash'
     ].freeze
   end
 

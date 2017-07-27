@@ -44,7 +44,13 @@ module RailsAdminSettings
             field :raw_array do
               searchable true
               pretty_value do
-                bindings[:object].join("<br>").html_safe
+                bindings[:object].raw_array.join("<br>").html_safe
+              end
+            end
+            field :raw_hash do
+              searchable true
+              pretty_value do
+                "<pre>#{JSON.pretty_generate(bindings[:object].raw_hash)}</pre>".html_safe
               end
             end
             field :cache_keys_str, :text do
@@ -78,13 +84,25 @@ module RailsAdminSettings
             field :raw do
               partial "setting_value".freeze
               visible do
-                !bindings[:object].upload_kind? and !bindings[:object].array_kind?
+                !bindings[:object].upload_kind? and !bindings[:object].array_kind? and !bindings[:object].hash_kind?
               end
             end
             field :raw_array do
               partial "setting_value".freeze
+              pretty_value do
+                bindings[:object].raw_array.map(&:to_s).join("<br>").html_safe
+              end
               visible do
                 bindings[:object].array_kind?
+              end
+            end
+            field :raw_hash do
+              partial "setting_value".freeze
+              pretty_value do
+                "<pre>#{JSON.pretty_generate(bindings[:object].raw_hash)}</pre>".html_safe
+              end
+              visible do
+                bindings[:object].hash_kind?
               end
             end
             if Settings.file_uploads_supported

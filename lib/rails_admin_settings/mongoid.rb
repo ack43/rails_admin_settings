@@ -12,6 +12,7 @@ module RailsAdminSettings
       field :key, type: String
       field :raw, type: String
       field :raw_array, type: Array
+      field :raw_hash, type: Hash
       field :label, type: String
       field :loadable, type: Boolean, default: true
       scope :loadable, -> {

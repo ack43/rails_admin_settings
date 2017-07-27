@@ -242,12 +242,16 @@ module RailsAdminSettings
       options[:kind] = options[:kind].to_s if options[:kind]
       is_file = !options[:kind].nil? && (options[:kind] == 'image' || options[:kind] == 'file')
       is_array = !options[:kind].nil? && (options[:kind] == 'array')
+      is_hash = !options[:kind].nil? && (options[:kind] == 'hash')
       if is_file
         options[:raw] = ''
         file = options[:value]
       elsif is_array
         options[:raw] = ''
         options[:raw_array] = options[:value] if options[:value]
+      elsif is_hash
+        options[:raw] = ''
+        options[:raw_hash] = options[:value] if options[:value]
       else
         options[:raw] = options[:value] if options[:value]
       end
@@ -286,6 +290,7 @@ module RailsAdminSettings
         if options[:overwrite] == false && !@settings[key].value.blank?
           opts.delete(:raw)
           opts.delete(:raw_array)
+          opts.delete(:raw_hash)
           opts.delete(:value)
           opts.delete(:enabled)
         end
