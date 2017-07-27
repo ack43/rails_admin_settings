@@ -1,3 +1,6 @@
+## 1.2.3
+- Hash and Array types.
+
 ## 1.2.2
 - Loadable Settings. You can cancel load some settings for save time, memory, etc. Because of cache, perhaps.
 - DELEGATE :p, :puts and :block_given? for Kernel. Prevent Settings.p and etc

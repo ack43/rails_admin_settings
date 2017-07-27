@@ -113,6 +113,8 @@ Supported types:
     domain (requires addressable)
     js (requires codemirror)
     css (requires codemirror)
+    array(array of inputs)
+    hash(array of inputs 'key-value')
 
 
 Strings and html support following replacement patterns:
