@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ack_rails_admin_settings (1.2.3.1)
+    ack_rails_admin_settings (1.2.3.2)
 
 GEM
   remote: https://rubygems.org/
