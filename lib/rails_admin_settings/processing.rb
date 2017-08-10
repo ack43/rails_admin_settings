@@ -34,7 +34,7 @@ module RailsAdminSettings
     def value
       if upload_kind?
         if file_kind?
-          file.url
+          file
         else
           nil
         end
@@ -51,7 +51,7 @@ module RailsAdminSettings
 
     def blank?
       if file_kind?
-        file.url.nil?
+        file.blank?
       elsif array_kind?
         raw_array.blank?
       elsif hash_kind?
