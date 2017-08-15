@@ -23,7 +23,12 @@ module RailsAdminSettings
       'css',
 
       'array',
-      'hash'
+      'hash',
+
+      'enum',
+      'multiple_enum',
+      'custom_enum',
+      'multiple_custom_enum'
     ].freeze
   end
 

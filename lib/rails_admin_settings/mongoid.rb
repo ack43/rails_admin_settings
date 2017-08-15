@@ -13,6 +13,8 @@ module RailsAdminSettings
       field :raw, type: String
       field :raw_array, type: Array
       field :raw_hash, type: Hash
+      field :possible_array, type: Array
+      field :possible_hash, type: Hash
       field :label, type: String
       field :loadable, type: Boolean, default: true
       scope :loadable, -> {
@@ -41,6 +43,32 @@ module RailsAdminSettings
         cache_keys.each do |k|
           Rails.cache.delete(k)
         end
+      end
+
+
+      def possible_data
+        @possible_data ||= (possible_hash.blank? ? (possible_array || []) : (possible_hash || {}))
+      end
+      def full_possible_data
+        if custom_enum_kind?
+          _possible_data = possible_data
+          if _possible_data.is_a?(Array)
+            if multiple_enum_kind?
+              ((raw_array || []) + _possible_data).uniq
+            else
+              _possible_data.unshift(value)
+            end
+          else
+            (value.blank? ? _possible_data : _possible_data.reverse_merge({"#{value}": value}))
+          end
+        elsif enum_kind?
+          possible_data
+        else
+          []
+        end
+      end
+      def possible_data_blank?
+        possible_data.blank?
       end
 
     end

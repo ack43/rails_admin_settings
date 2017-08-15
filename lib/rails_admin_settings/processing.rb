@@ -24,11 +24,21 @@ module RailsAdminSettings
     alias_method :upload_type?, :upload_kind?
     alias_method :html_type?, :html_kind?
 
-    def array_kind?
-      ['array'].include? kind
+    # def array_kind?
+    #   ['array'].include? kind
+    # end
+    # def hash_kind?
+    #   ['hash'].include? kind
+    # end
+
+    def enum_kind?
+      ['enum', 'custom_enum', 'multiple_enum', 'multiple_custom_enum'].include? kind
     end
-    def hash_kind?
-      ['hash'].include? kind
+    def custom_enum_kind?
+      ['custom_enum', 'multiple_custom_enum'].include? kind
+    end
+    def multiple_enum_kind?
+      ['multiple_enum', 'multiple_custom_enum'].include? kind
     end
 
     def value

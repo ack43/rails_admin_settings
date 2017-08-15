@@ -8,6 +8,7 @@ module RailsAdminSettings
     initializer "RailsAdminSettings precompile hook", group: :all do |app|
       app.config.assets.precompile += %w(rails_admin_settings/array.js)
       app.config.assets.precompile += %w(rails_admin_settings/hash.js rails_admin_settings/hash.css)
+      app.config.assets.precompile += %w(rails_admin_settings/enum.js)
     end
 
 

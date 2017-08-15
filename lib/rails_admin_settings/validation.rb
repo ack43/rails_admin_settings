@@ -79,6 +79,10 @@ module RailsAdminSettings
           end
         end
       end
+
+      # base.validate if: :custom_enum_kind?
+      # end
+
     end
   end
 end
