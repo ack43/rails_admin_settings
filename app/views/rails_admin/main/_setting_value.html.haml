@@ -113,7 +113,7 @@
 
 - elsif @object.type == 'enum'
   = javascript_include_tag 'rails_admin_settings/enum'
-  = form.select field.method_name, @object.possible_data, { include_blank: true }.reverse_merge({ selected: field.form_value }), field.html_attributes.reverse_merge({ data: { enumeration: true }, placeholder: t('admin.misc.search'), class: 'rails_admin_settings_enum enum'})
+  = form.select field.method_name, @object.possible_data, { include_blank: false }.reverse_merge({ selected: field.form_value }), field.html_attributes.reverse_merge({ data: { enumeration: true }, placeholder: t('admin.misc.search'), class: 'rails_admin_settings_enum enum'})
 
 
 - elsif @object.type == 'multiple_enum'
@@ -132,12 +132,12 @@
         down: t("admin.misc.down")
       }
     }
-  = form.select field.method_name, @object.possible_data, { selected: field.form_value, object: @object }, field.html_attributes.reverse_merge({data: { filteringmultiselect: true, options: js_data.to_json }, multiple: true, class: 'rails_admin_settings_enum multiple_enum'})
+  = form.select field.method_name, @object.possible_data, { include_blank: false, selected: @object.value, object: @object }, field.html_attributes.reverse_merge({data: { filteringmultiselect: true, options: js_data.to_json }, multiple: true, class: 'rails_admin_settings_enum multiple_enum'})
 
 
 - elsif @object.type == 'custom_enum'
   = javascript_include_tag 'rails_admin_settings/enum'
-  = form.select field.method_name, @object.full_possible_data, { include_blank: true }.reverse_merge({ selected: field.form_value }), field.html_attributes.reverse_merge({ data: { enumeration: true }, placeholder: t('admin.misc.search_or_add_yours'), class: 'rails_admin_settings_enum custom_enum'})
+  = form.select field.method_name, @object.full_possible_data, { include_blank: false }.reverse_merge({ selected: field.form_value }), field.html_attributes.reverse_merge({ data: { enumeration: true }, placeholder: t('admin.misc.search_or_add_yours'), class: 'rails_admin_settings_enum custom_enum'})
 
 
 - elsif @object.type == 'multiple_custom_enum'
@@ -156,4 +156,4 @@
         down: t("admin.misc.down")
       }
     }
-  = form.select field.method_name, @object.full_possible_data, { selected: field.form_value, object: @object }, field.html_attributes.reverse_merge({data: { filteringmultiselect: true, options: js_data.to_json, unique: field.unique }, multiple: true, class: 'rails_admin_settings_enum multiple_custom_enum'})
+  = form.select field.method_name, @object.full_possible_data, { include_blank: false, selected: @object.value, object: @object }, field.html_attributes.reverse_merge({data: { filteringmultiselect: true, options: js_data.to_json }, multiple: true, class: 'rails_admin_settings_enum multiple_custom_enum'})

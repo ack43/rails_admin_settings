@@ -241,7 +241,7 @@ module RailsAdminSettings
     def write_to_database(key, options)
       options[:kind] = options[:kind].to_s if options[:kind]
       is_file = !options[:kind].nil? && (options[:kind] == 'image' || options[:kind] == 'file')
-      is_array = !options[:kind].nil? && (options[:kind] == 'array')
+      is_array = !options[:kind].nil? && (options[:kind] == 'array' || options[:kind] == 'multiple_enum' || options[:kind] == 'multiple_custom_enum')
       is_hash = !options[:kind].nil? && (options[:kind] == 'hash')
       if is_file
         options[:raw] = ''

@@ -24,9 +24,9 @@ module RailsAdminSettings
     alias_method :upload_type?, :upload_kind?
     alias_method :html_type?, :html_kind?
 
-    # def array_kind?
-    #   ['array'].include? kind
-    # end
+    def array_kind?
+      ['array'].include?(kind) or multiple_enum_kind?
+    end
     # def hash_kind?
     #   ['hash'].include? kind
     # end
@@ -62,11 +62,13 @@ module RailsAdminSettings
     def blank?
       if file_kind?
         file.blank?
+      elsif disabled?
+        true
       elsif array_kind?
         raw_array.blank?
       elsif hash_kind?
         raw_hash.blank?
-      elsif raw.blank? || disabled?
+      elsif raw.blank?
         true
       else
         false
@@ -77,7 +79,11 @@ module RailsAdminSettings
       if yaml_kind? || phone_kind? || integer_kind?
         raw
       elsif array_kind?
-        raw_array.join(", ")
+        if multiple_enum_kind? and !possible_hash.blank?
+          raw_array.map { |r| possible_hash[r.to_s] || possible_hash[r.to_sym] }.join(", ")
+        else
+          raw_array.join(", ")
+        end
       elsif hash_kind?
         raw_hash.to_json
       else
@@ -183,6 +189,12 @@ module RailsAdminSettings
         raw_array
       elsif hash_kind?
         raw_hash
+      elsif enum_kind? and !possible_hash.blank?
+        if multiple_enum_kind?
+          raw_array.map { |r| possible_hash[r.to_s] || possible_hash[r.to_sym] }
+        else
+          possible_hash[raw.to_s] || possible_hash[raw.to_sym] || raw
+        end
       else
         puts "[rails_admin_settings] Unknown field kind: #{kind}".freeze
         nil

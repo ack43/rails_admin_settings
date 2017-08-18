@@ -1,15 +1,33 @@
 if !window.rails_admin_settings or !window.rails_admin_settings.enum_loaded
+  window.rails_admin_settings ||= {}
+  window.rails_admin_settings.multiselect_dblclick = (selector)->
+    left_selector = []
+    right_selector = []
+    selector.split(",").forEach (sel)->
+      left_selector.push(sel + ' .ra-multiselect-left select option')
+      right_selector.push(sel + ' .ra-multiselect-right select option')
+    left_selector = left_selector.join(", ")
+    right_selector = right_selector.join(", ")
+
+    $(document).on 'dblclick', left_selector, (e)->
+      $(e.currentTarget).closest('.ra-multiselect').find('.ra-multiselect-center .ra-multiselect-item-add').click()
+    $(document).on 'dblclick', right_selector, (e)->
+      $(e.currentTarget).closest('.ra-multiselect').find('.ra-multiselect-center .ra-multiselect-item-remove').click()
+  window.rails_admin_settings.multiselect_dblclick("#rails_admin_settings_setting_raw_array_field select.rails_admin_settings_enum + .ra-multiselect")
+
   window.rails_admin_settings.set_enum_with_custom = () ->
-    $('.rails_admin_settings_enum .ra-filtering-select-input').autocomplete(
+    $('#rails_admin_settings_setting_raw_field .ra-filtering-select-input, #rails_admin_settings_setting_raw_array_field .ra-filtering-select-input').autocomplete(
       search: (e, ui)->
         if e.currentTarget
           $(e.currentTarget).closest(".controls").find("select.rails_admin_settings_enum option:first").val(e.currentTarget.value).text(e.currentTarget.value)
           _src = $(e.currentTarget).closest(".controls").find("select.rails_admin_settings_enum option").map( ->
             { label: $(this).text(), value: $(this).text() }
           ).toArray();
-          $(e.currentTarget).closest(".controls").find("select").data('raFilteringSelect').options.source = _src
+          $(e.currentTarget).closest(".controls").find("select").val(e.currentTarget.value).data('raFilteringSelect').options.source = _src
     )
-    $('.rails_admin_settings_enum .ra-multiselect-search').on('keydown', (e)->
+    custom_enum_selector = '#rails_admin_settings_setting_raw_field .custom_enum ~ .ra-multiselect .ra-multiselect-search'
+    multiple_custom_enum_selector = '#rails_admin_settings_setting_raw_array_field .multiple_custom_enum ~ .ra-multiselect .ra-multiselect-search'
+    $([custom_enum_selector, multiple_custom_enum_selector].join(", ")).on('keydown', (e)->
       return true if e.ctrlKey
       if e.which == 13
         e.preventDefault()
@@ -39,8 +57,8 @@ if !window.rails_admin_settings or !window.rails_admin_settings.enum_loaded
       $(this).after("<a class='rails_admin_settings_enum_with_custom_type_add_button' href='#' onclick='" + onclick + "' title='Добавить'>+</a>")
 
 
-  $(document).on "change", ".rails_admin_settings_enum :input", (e)->
-    field_block = $(e.currentTarget).closest(".rails_admin_settings_enum")
+  $(document).on "change", "#rails_admin_settings_setting_raw_field :input, #rails_admin_settings_setting_raw_array_field :input", (e)->
+    field_block = $(e.currentTarget).closest(".controls")
     hidden_field = field_block.find("[type='hidden']")
     if field_block.find(":input:not([type='hidden'])").serializeArray().length == 0
       hidden_field.prop('name', hidden_field.data('name')) if hidden_field.data('name')
@@ -50,7 +68,7 @@ if !window.rails_admin_settings or !window.rails_admin_settings.enum_loaded
 
 
   $(document).on 'rails_admin.dom_ready', ->
-    window.hancock_cms.set_enum_with_custom()
+    window.rails_admin_settings.set_enum_with_custom()
     $(".rails_admin_settings_enum :input[type='hidden']").trigger('change')
 
 window.rails_admin_settings ||= {}

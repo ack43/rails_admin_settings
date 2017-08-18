@@ -54,9 +54,9 @@ module RailsAdminSettings
           _possible_data = possible_data
           if _possible_data.is_a?(Array)
             if multiple_enum_kind?
-              ((raw_array || []) + _possible_data).uniq
+              ((raw_array || []) + _possible_data).map(&:to_s).uniq
             else
-              _possible_data.unshift(value)
+              _possible_data.unshift(value).map(&:to_s).uniq
             end
           else
             (value.blank? ? _possible_data : _possible_data.reverse_merge({"#{value}": value}))

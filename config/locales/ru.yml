@@ -8,6 +8,16 @@ ru:
       email_invalid: Неверный email
       yaml_invalid: Неверный синтаксис YAML
       color_invalid: Неверный цвет
+    misc:
+      search: "Поиск"
+      search_or_add_yours: "Поиск/новый элемент"
+      add_new: "Добавить новый"
+      chosen: "Выбрать %{name}"
+      chose_all: "Выбрать все"
+      clear_all: "Убрать выделение"
+      up: "Вверх"
+      down: "Вниз"
+
   mongoid: &mongoid
     models:
       rails_admin_settings/setting: Настройки
