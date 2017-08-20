@@ -45,7 +45,15 @@ module RailsAdminSettings
         end
       end
 
-
+      def raw_data
+        if array_kind?
+          raw_array
+        elsif  hash_kind?
+          raw_hash
+        else
+          raw
+        end
+      end
       def possible_data
         @possible_data ||= (possible_hash.blank? ? (possible_array || []) : (possible_hash || {}))
       end

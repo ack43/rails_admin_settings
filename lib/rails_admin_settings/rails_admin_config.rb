@@ -10,10 +10,10 @@ module RailsAdminSettings
           list do
             if Object.const_defined?('RailsAdminToggleable')
               field :enabled, :toggle
-              field :loadable, :toggle
+              # field :loadable, :toggle
             else
               field :enabled
-              field :loadable
+              # field :loadable
             end
             field :kind do
               searchable true
@@ -29,30 +29,45 @@ module RailsAdminSettings
             field :key do
               searchable true
             end
-            field :raw do
-              searchable true
+            field :raw_data do
               pretty_value do
                 if bindings[:object].file_kind?
                   "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'>#{CGI::escapeHTML(bindings[:object].to_path)}</a>".html_safe.freeze
                 elsif bindings[:object].image_kind?
                   "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'><img src='#{CGI::escapeHTML(bindings[:object].file.url)}' /></a>".html_safe.freeze
+                elsif bindings[:object].array_kind?
+                  (bindings[:object].raw_array || []).join("<br>").html_safe
+                elsif bindings[:object].hash_kind?
+                  "<pre>#{JSON.pretty_generate(bindings[:object].raw_hash || {})}</pre>".html_safe
                 else
                   value
                 end
               end
             end
-            field :raw_array do
-              searchable true
-              pretty_value do
-                (bindings[:object].raw_array || []).join("<br>").html_safe
-              end
-            end
-            field :raw_hash do
-              searchable true
-              pretty_value do
-                "<pre>#{JSON.pretty_generate(bindings[:object].raw_hash || {})}</pre>".html_safe
-              end
-            end
+            # field :raw do
+            #   searchable true
+            #   pretty_value do
+            #     if bindings[:object].file_kind?
+            #       "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'>#{CGI::escapeHTML(bindings[:object].to_path)}</a>".html_safe.freeze
+            #     elsif bindings[:object].image_kind?
+            #       "<a href='#{CGI::escapeHTML(bindings[:object].file.url)}'><img src='#{CGI::escapeHTML(bindings[:object].file.url)}' /></a>".html_safe.freeze
+            #     else
+            #       value
+            #     end
+            #   end
+            # end
+            # field :raw_array do
+            #   searchable true
+            #   pretty_value do
+            #     (bindings[:object].raw_array || []).join("<br>").html_safe
+            #   end
+            # end
+            # field :raw_hash do
+            #   searchable true
+            #   pretty_value do
+            #     "<pre>#{JSON.pretty_generate(bindings[:object].raw_hash || {})}</pre>".html_safe
+            #   end
+            # end
             field :cache_keys_str, :text do
               searchable true
             end
