@@ -70,12 +70,18 @@ module RailsAdminSettings
 
     # t = {_all: 'Все'}
     if ::Settings.table_exists?
-      ::RailsAdminSettings::Setting.pluck(:ns).uniq.each do |c|
+      ::RailsAdminSettings::Setting.distinct(:ns).each do |c|
         s = "ns_#{c.gsub('-', '_')}".to_sym
         scope s, -> { where(ns: c) }
         # t[s] = c
       end
     end
+    scope :model_settings, -> {
+      where(ns: /^rails_admin_model_settings_/)
+    }
+    scope :no_model_settings, -> {
+      where(:ns => /^(?!rails_admin_model_settings_)/)
+    }
     # I18n.backend.store_translations(:ru, {admin: {scopes: {'rails_admin_settings/setting': t}}})
 
     if Object.const_defined?('RailsAdmin')

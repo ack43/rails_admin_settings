@@ -75,9 +75,11 @@ module RailsAdminSettings
               searchable true
             end
             if ::Settings.table_exists?
-              nss = ::RailsAdminSettings::Setting.pluck(:ns).uniq.map { |c| "ns_#{c.gsub('-', '_')}".to_sym }
-              scopes([nil] + nss)
+              nss = ::RailsAdminSettings::Setting.distinct(:ns).map { |c| "ns_#{c.gsub('-', '_')}".to_sym }
+            else
+              nss = []
             end
+            scopes([nil, :model_settings, :no_model_settings] + nss)
           end
 
           edit do
