@@ -3,6 +3,7 @@ module RailsAdminSettings
     autoload :CarrierWave, "rails_admin_settings/storage/carrierwave"
     def self.included(base)
       # carrierwave
+      puts RailsAdminSettings.mongoid?
       if base.respond_to?(:mount_uploader)
         # puts "[rails_admin_settings] CarrierWave detected"
         # base.field(:file, type: String)
@@ -42,4 +43,3 @@ module RailsAdminSettings
     end
   end
 end
-

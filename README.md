@@ -2,7 +2,7 @@
 
 Fork of [RailsAdminSettings](https://github.com/rs-pro/rails_admin_settings)
 
-App settings editable via RailsAdmin with support for ActiveRecord and Mongoid.
+App settings editable via RailsAdmin with support for ActiveRecord (MariaDB 10.2.7) and Mongoid.
 
 Supports images, files, html with or without sanitization, code with codemirror, etc.
 

@@ -1,6 +1,6 @@
 if RailsAdminSettings.active_record?
   module RailsAdminSettings
-    class Setting < ActiveRecord::Base
+    class Setting < ::ActiveRecord::Base
     end
   end
 end
@@ -17,12 +17,16 @@ module RailsAdminSettings
       end
     end
 
+    include RailsAdminSettings::Cache
+    include RailsAdminSettings::HashArraySupport
+
     if RailsAdminSettings.active_record?
-      self.table_name = "rails_admin_settings".freeze
+      include RailsAdminSettings::ActiveRecord
     end
 
     scope :enabled, -> { where(enabled: true) }
     scope :ns, ->(ns) { where(ns: ns) }
+    scope :loadable, -> { where(loadable: true) }
 
     include RailsAdminSettings::RequireHelpers
     include RailsAdminSettings::Processing
@@ -68,20 +72,16 @@ module RailsAdminSettings
       v
     end
 
+
     # t = {_all: 'Все'}
     if ::Settings.table_exists?
-      ::RailsAdminSettings::Setting.distinct(:ns).each do |c|
+      ::RailsAdminSettings::Setting.pluck(:ns).each do |c|
         s = "ns_#{c.gsub('-', '_')}".to_sym
         scope s, -> { where(ns: c) }
         # t[s] = c
       end
     end
-    scope :model_settings, -> {
-      where(ns: /^rails_admin_model_settings_/)
-    }
-    scope :no_model_settings, -> {
-      where(:ns => /^(?!rails_admin_model_settings_)/)
-    }
+
     # I18n.backend.store_translations(:ru, {admin: {scopes: {'rails_admin_settings/setting': t}}})
 
     if Object.const_defined?('RailsAdmin')

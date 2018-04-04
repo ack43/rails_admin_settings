@@ -22,6 +22,7 @@ module RailsAdminSettings
   class PersistenceException < Exception
   end
 
+  autoload :ActiveRecord,      "rails_admin_settings/active_record"
   autoload :Mongoid,           "rails_admin_settings/mongoid"
   autoload :Fallback,          "rails_admin_settings/fallback"
   autoload :Namespaced,        "rails_admin_settings/namespaced"
@@ -32,6 +33,9 @@ module RailsAdminSettings
   autoload :Uploads,           "rails_admin_settings/uploads"
   autoload :HexColorValidator, "rails_admin_settings/hex_color_validator"
   autoload :Dumper,            "rails_admin_settings/dumper"
+
+  autoload :Cache,              "rails_admin_settings/cache"
+  autoload :HashArraySupport,   "rails_admin_settings/hash_array_support"
 
   def self.migrate!
     if RailsAdminSettings.mongoid?

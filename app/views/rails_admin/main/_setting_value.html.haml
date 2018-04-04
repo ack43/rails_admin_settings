@@ -86,7 +86,7 @@
   = javascript_include_tag 'rails_admin_settings/array'
 
   = form.hidden_field field.method_name, value: "", multiple: true
-  - (field.value || []).each do |val|
+  - field.formatted_value.each do |val|
     = render partial: 'rails_admin/main/rails_admin_settings/array/element', locals: {form: form, field: field, val: val}
 
   - _template = capture do
@@ -99,7 +99,7 @@
   = javascript_include_tag 'rails_admin_settings/hash'
   = stylesheet_link_tag 'rails_admin_settings/hash'
 
-  - (field.value || {}).each_pair do |name, val|
+  - field.formatted_value.each_pair do |name, val|
     = render partial: 'rails_admin/main/rails_admin_settings/hash/element', locals: {form: form, field: field, name: name, val: val}
 
   - _template = capture do
@@ -156,4 +156,4 @@
         down: t("admin.misc.down")
       }
     }
-  = form.select field.method_name, @object.full_possible_data, { include_blank: false, selected: @object.value, object: @object }, field.html_attributes.reverse_merge({data: { filteringmultiselect: true, options: js_data.to_json }, multiple: true, class: 'rails_admin_settings_enum multiple_custom_enum'})
+  = form.select field.method_name, @object.full_possible_data, { include_blank: false, selected: @object.formatted_value, object: @object }, field.html_attributes.reverse_merge({data: { filteringmultiselect: true, options: js_data.to_json }, multiple: true, class: 'rails_admin_settings_enum multiple_custom_enum'})

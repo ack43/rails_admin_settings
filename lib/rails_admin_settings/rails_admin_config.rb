@@ -75,7 +75,7 @@ module RailsAdminSettings
               searchable true
             end
             if ::Settings.table_exists?
-              nss = ::RailsAdminSettings::Setting.distinct(:ns).map { |c| "ns_#{c.gsub('-', '_')}".to_sym }
+              nss = ::RailsAdminSettings::Setting.pluck(:ns).map { |c| "ns_#{c.gsub('-', '_')}".to_sym }
             else
               nss = []
             end
@@ -118,8 +118,11 @@ module RailsAdminSettings
             end
             field :raw_hash do
               partial "setting_value".freeze
+              formatted_value do
+                (bindings[:object].raw_hash || {})
+              end
               pretty_value do
-                "<pre>#{JSON.pretty_generate(bindings[:object].raw_hash || {})}</pre>".html_safe
+                "<pre>#{JSON.pretty_generate(formatted_value)}</pre>".html_safe
               end
               visible do
                 bindings[:object].hash_kind?
