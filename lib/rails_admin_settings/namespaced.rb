@@ -96,10 +96,11 @@ module RailsAdminSettings
           if v.nil? or _overwrite
             if block
               begin
-                v = set(key, yield, options)
+                v = set(key, block.call(self), options)
               rescue Exception => ex
                 # puts "WTF"
                 # puts ex.inspect
+                v = set(key, options[:default], options)
               end
             else
               v = set(key, options[:default], options)
@@ -209,6 +210,14 @@ module RailsAdminSettings
         else
           v.enabled
         end
+      elsif key.end_with?('_blank?')
+        key = key[0..-8]
+        v = get(key)
+        if v.nil?
+          set(key, '').blank?
+        else
+          v.blank?
+        end
       elsif key.end_with?('_enabled=')
         key = key[0..-10]
         v = get(key)
@@ -280,11 +289,12 @@ module RailsAdminSettings
             end
           end
         end
-        if options[:loadable]
-          @settings[key] = v
-        else
-          return v
-        end
+        @settings[key] = v
+        # if options[:loadable]
+        #   @settings[key] = v
+        # else
+        #   return v
+        # end
       else
         opts = options.dup
         if options[:overwrite] == false && !@settings[key].value.blank?

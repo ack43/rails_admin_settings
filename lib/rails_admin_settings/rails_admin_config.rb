@@ -83,8 +83,13 @@ module RailsAdminSettings
           end
 
           edit do
-            field :enabled
-            field :loadable
+            if Object.const_defined?('RailsAdminToggleable')
+              field :enabled, :toggle
+              field :loadable, :toggle
+            else
+              field :enabled
+              field :loadable
+            end
             field :ns  do
               read_only true
               help false
@@ -104,13 +109,16 @@ module RailsAdminSettings
             field :raw do
               partial "setting_value".freeze
               visible do
-                !bindings[:object].upload_kind? and !bindings[:object].array_kind? and !bindings[:object].hash_kind?
+                bindings[:object] and !bindings[:object].upload_kind? and !bindings[:object].array_kind? and !bindings[:object].hash_kind?
               end
             end
             field :raw_array do
               partial "setting_value".freeze
               pretty_value do
-                (bindings[:object].raw_array || []).map(&:to_s).join("<br>").html_safe
+                formatted_value.map(&:to_s).join("<br>").html_safe
+              end
+              formatted_value do
+                (bindings[:object].raw_hash || [])
               end
               visible do
                 bindings[:object].array_kind?
@@ -136,12 +144,7 @@ module RailsAdminSettings
               end
             end
 
-            field :cache_keys_str, :text do
-              visible do
-                render_object = (bindings[:controller] || bindings[:view])
-                render_object and render_object.current_user.admin?
-              end
-            end
+            field :cache_keys_str, :text
 
           end
         end

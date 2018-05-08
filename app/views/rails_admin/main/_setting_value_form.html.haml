@@ -42,7 +42,7 @@
 
   = rails_admin_form_for @object, url: edit_path(@abstract_model, @object.id), as: @abstract_model.param_key, html: { method: "put", multipart: true, class: "form-horizontal denser" } do |form|
     .form-group.control-group{class: "#{ra_field.type_css_class} #{ra_field.css_class} #{'error' if ra_field.errors.present?}", id: "#{_dom_id(ra_field)}_field"}
-      = render partial: "rails_admin/main/setting_value", locals: {field: ra_field, form: form}
+      = render partial: "rails_admin/main/setting_value", locals: {field: ra_field, form: form, _object: @object}
 
     -# = render partial: 'rails_admin/main/submit_buttons'
     .form-group.form-actions
