@@ -1,6 +1,6 @@
 .rails_admin_settings_hash_element_block
-  = form.text_field nil, value: name, class: 'rails_admin_settings_hash_element_key_field', name: ""
+  = form.text_field nil, value: name, class: 'rails_admin_settings_hash_element_key_field', name: "", id: ""
   %span= ": "
-  = form.text_field "#{field.method_name}[#{name}]", value: val, class: 'value_field'
+  = form.text_field "#{field.method_name}[#{name}]", value: val, class: 'value_field', id: ""
   %span= " #{name} "
   = link_to "(удалить)", "#", class: "rails_admin_settings_hash_element_delete_link", tabindex: -1

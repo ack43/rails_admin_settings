@@ -1,48 +1,48 @@
 .rails_admin_settings_inline_form
   :ruby
-    _object = @object
-    _abstract_model = @abstract_model
-    _object_name = @object_name
-    @object = object
-    @abstract_model = RailsAdmin::AbstractModel.new(@object.class)
-    @object_name = @object.class.name
+    _object ||= @object
+    _abstract_model ||= @abstract_model
+    _object_name ||= @object_name
+    # @object = object
+    # @abstract_model = RailsAdmin::AbstractModel.new(@object.class)
+    # @object_name = @object.class.name
 
-    section = RailsAdmin::Config::Sections::Edit.new(@abstract_model.config)
+    section = RailsAdmin::Config::Sections::Edit.new(_abstract_model.config)
 
-    def _dom_id(field)
+    def _dom_id(field, object_name)
       field.name ||
         [
-          @object_name.to_s.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, ''),
+          object_name.to_s.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, ''),
           options[:index],
           field.method_name,
         ].reject(&:blank?).join('_')
     end
 
 
-    case @object.type
+    case _object.type
     when "array"
-      properties = @abstract_model.properties.detect { |p| :raw_array == p.name }
+      properties = _abstract_model.properties.detect { |p| :raw_array == p.name }
       ra_field = RailsAdmin::Config::Fields::Types.load(:string).new(section, :raw_array, properties)
     when "hash"
-      properties = @abstract_model.properties.detect { |p| :raw_hash == p.name }
+      properties = _abstract_model.properties.detect { |p| :raw_hash == p.name }
       ra_field = RailsAdmin::Config::Fields::Types.load(:string).new(section, :raw_hash, properties)
     when 'file', 'upload', 'image'
-      properties = @abstract_model.properties.detect { |p| :file == p.name }
+      properties = _abstract_model.properties.detect { |p| :file == p.name }
       ra_field = RailsAdmin::Config::Fields::Types.load(Settings.file_uploads_engine).new(section, :file, properties)
     else
-      properties = @abstract_model.properties.detect { |p| :raw == p.name }
+      properties = _abstract_model.properties.detect { |p| :raw == p.name }
       ra_field = RailsAdmin::Config::Fields::Types.load(:string).new(section, :raw, properties)
     end
     ra_field.bindings = {
       view: self,
-      object: @object,
-      abstract_model: @abstract_model,
-      model: @object.class
+      object: _object,
+      abstract_model: _abstract_model,
+      model: _object_name.class
     }
 
-  = rails_admin_form_for @object, url: edit_path(@abstract_model, @object.id), as: @abstract_model.param_key, html: { method: "put", multipart: true, class: "form-horizontal denser" } do |form|
-    .form-group.control-group{class: "#{ra_field.type_css_class} #{ra_field.css_class} #{'error' if ra_field.errors.present?}", id: "#{_dom_id(ra_field)}_field"}
-      = render partial: "rails_admin/main/setting_value", locals: {field: ra_field, form: form, _object: @object}
+  = rails_admin_form_for _object, url: edit_path(_abstract_model, _object.id), as: _abstract_model.param_key, html: { method: "put", multipart: true, class: "form-horizontal denser" } do |form|
+    .form-group.control-group{class: "#{ra_field.type_css_class} #{ra_field.css_class} #{'error' if ra_field.errors.present?}", id: "#{_dom_id(ra_field, _object_name)}_field"}
+      = render partial: "rails_admin/main/setting_value", locals: {field: ra_field, form: form, _object: _object}
 
     -# = render partial: 'rails_admin/main/submit_buttons'
     .form-group.form-actions
@@ -63,6 +63,6 @@
             = t("admin.form.cancel")
 
   :ruby
-    @object = _object
-    @abstract_model = _abstract_model
-    @object_name = _object_name
+    # @object = _object
+    # @abstract_model = _abstract_model
+    # @object_name = _object_name
