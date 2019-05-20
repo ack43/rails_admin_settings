@@ -100,27 +100,26 @@ module RailsAdminSettings
     end
 
     def default_value
-      if html_kind?
-        ''.html_safe
-      elsif text_kind?
-        ''
-      elsif integer_kind?
-        0
-      elsif yaml_kind?
-      elsif boolean_kind?
-        false
-      elsif yaml_type?
-        nil
+      if hash_kind?
+        {}
+      elsif array_kind?
+        []
+      elsif phones_kind?
+        []
       elsif phone_kind?
         require_russian_phone do
           RussianPhone::Number.new('')
         end
-      elsif phones_kind?
-        []
-      elsif array_kind?
-        []
-      elsif hash_kind?
-        {}
+      elsif html_kind?
+        ''.html_safe
+      elsif yaml_type?
+        nil
+      elsif integer_kind?
+        0
+      elsif boolean_kind?
+        false
+      elsif text_kind?
+        ''
       else
         nil
       end
@@ -171,30 +170,63 @@ module RailsAdminSettings
     end
 
     def processed_value
-      if text_kind?
-        process_text
-      elsif integer_kind?
-        raw.to_i
-      elsif yaml_kind?
-        load_yaml
-      elsif boolean_kind?
-        raw == 'true'
-      elsif phone_kind?
-        load_phone
-      elsif phones_kind?
-        load_phones
-      elsif file_kind?
-        file.url
-      elsif array_kind?
-        raw_array
-      elsif hash_kind?
-        raw_hash
-      elsif enum_kind? and !possible_hash.blank?
+      if enum_kind? and !possible_hash.blank?
         if multiple_enum_kind?
           raw_array.map { |r| possible_hash[r.to_s] || possible_hash[r.to_sym] }
         else
           possible_hash[raw.to_s] || possible_hash[raw.to_sym] || raw
         end
+      elsif hash_kind?
+        raw_hash
+      elsif array_kind?
+        raw_array
+      elsif file_kind?
+        file.url
+      elsif phones_kind?
+        load_phones
+      elsif phone_kind?
+        load_phone
+      elsif integer_kind?
+        raw.to_i
+      elsif boolean_kind?
+        raw == 'true'
+      elsif yaml_kind?
+        load_yaml
+      elsif text_kind?
+        process_text
+      else
+        puts "[rails_admin_settings] Unknown field kind: #{kind}".freeze
+        nil
+      end
+    end
+
+    def pretty_value
+      if enum_kind? and !possible_hash.blank?
+        if multiple_enum_kind?
+          raw_array.map { |r| possible_hash[r.to_s] || possible_hash[r.to_sym] }
+        else
+          _val = possible_hash[raw.to_s] || possible_hash[raw.to_sym] || raw
+          _val = raw unless _val.is_a?(String)
+          _val
+        end
+      elsif hash_kind?
+        raw_hash
+      elsif array_kind?
+        raw_array
+      elsif file_kind?
+        file.url
+      elsif phones_kind?
+        load_phones
+      elsif phone_kind?
+        load_phone
+      elsif integer_kind?
+        raw.to_i
+      elsif boolean_kind?
+        raw == 'true' ? "Да" : "Нет"
+      elsif yaml_kind?
+        load_yaml
+      elsif text_kind?
+        process_text
       else
         puts "[rails_admin_settings] Unknown field kind: #{kind}".freeze
         nil

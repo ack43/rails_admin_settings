@@ -12,6 +12,14 @@ module RailsAdminSettings
       field :key, type: String
       field :raw, type: String
       field :raw_array, type: Array
+
+      before_save do
+        if self.raw_array
+          self.raw_array ||= []
+          self.raw_array.shift if self.raw_array.first == ""
+        end
+      end
+
       field :raw_hash, type: Hash
       field :possible_array, type: Array
       field :possible_hash, type: Hash

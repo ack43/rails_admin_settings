@@ -1,6 +1,6 @@
 if !window.rails_admin_settings or !window.rails_admin_settings.array_loaded
   separate_form_selector  = "#edit_rails_admin_settings_setting .raw_array_field .rails_admin_settings_array_element_add_link"
-  inline_form_selector    = separate_form_selector #".rails_admin_settings_inline_form .raw_array_field .rails_admin_settings_array_element_add_link"
+  inline_form_selector    = ".rails_admin_settings_inline_form .raw_array_field .rails_admin_settings_array_element_add_link"
   $(document).on "click", separate_form_selector + ", " + inline_form_selector , (e)->
     e.preventDefault()
     link = $(e.currentTarget)
@@ -11,7 +11,7 @@ if !window.rails_admin_settings or !window.rails_admin_settings.array_loaded
 
 
   separate_form_selector  = "#edit_rails_admin_settings_setting .raw_array_field .rails_admin_settings_array_element_delete_link"
-  inline_form_selector    = separate_form_selector #".rails_admin_settings_inline_form .raw_array_field .rails_admin_settings_array_element_delete_link"
+  inline_form_selector    = ".rails_admin_settings_inline_form .raw_array_field .rails_admin_settings_array_element_delete_link"
   $(document).on 'click', separate_form_selector + ", " + inline_form_selector, (e)->
     e.preventDefault()
     hidden_field = $(e.currentTarget).closest(".raw_array_field").find("[type='hidden']")
@@ -21,7 +21,7 @@ if !window.rails_admin_settings or !window.rails_admin_settings.array_loaded
 
 
   separate_form_selector  = "#edit_rails_admin_settings_setting .raw_array_field .rails_admin_settings_array_element_move_link"
-  inline_form_selector    = separate_form_selector #".rails_admin_settings_inline_form .raw_array_field .rails_admin_settings_array_element_move_link"
+  inline_form_selector    = ".rails_admin_settings_inline_form .raw_array_field .rails_admin_settings_array_element_move_link"
   $(document).on 'click', separate_form_selector + ", " + inline_form_selector, (e)->
     e.preventDefault()
     link = $(e.currentTarget)

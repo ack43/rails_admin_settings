@@ -84,20 +84,25 @@ module RailsAdminSettings
           end
           self.errors.add(:raw, "Недопустимое значение")
           self.errors.add(:raw_array, "Недопустимое значение")
+          return false
+        
         elsif _full_possible_data.is_a?(Hash)
-          _full_possible_data = _full_possible_data.keys.map(&:to_s)
+          _full_possible_data_alt = _full_possible_data.keys.map(&:to_s)
+          _full_possible_data = _full_possible_data.values.map(&:to_s)
           if value.is_a?(Array)
-            if value.size == (value & _full_possible_data)
+            if value.size == (value & _full_possible_data or value & _full_possible_data_alt)
               return true
             end
           else
-            if _full_possible_data.map(&:to_s).include?(value)
+            if _full_possible_data.include?(value.to_s) or _full_possible_data_alt.include?(value.to_s)
               return true
             end
           end
           self.errors.add(:raw, "Недопустимое значение")
-          self.errors.add(:raw_array, "Недопустимое значение")
+          self.errors.add(:raw_hash, "Недопустимое значение")
+          return false
         end
+        return true
       end
 
     end
