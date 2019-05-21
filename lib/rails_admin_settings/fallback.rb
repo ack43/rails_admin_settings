@@ -10,6 +10,10 @@ module RailsAdminSettings
       @fb = fb
     end
 
+    def ns
+      @ns
+    end
+
     def inspect
       "#<RailsAdminSettings::Fallback ns: #{@ns.inspect}, fb: #{@fb.inspect}>".freeze
     end

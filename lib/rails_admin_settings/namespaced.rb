@@ -17,6 +17,10 @@ module RailsAdminSettings
       @name = name
     end
 
+    def name
+      @name
+    end
+
     def nil?
       false
     end
