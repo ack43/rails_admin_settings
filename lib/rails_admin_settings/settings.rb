@@ -19,7 +19,8 @@ class Settings < BasicObject
   cattr_reader :mutex
 
   class << self
-    def ns(name, options = {})
+    def ns(name = false, options = {})
+      return @@ns_default if name == false
       options.symbolize_keys!
       if name.nil? || name == @@ns_default
         name = @@ns_default.to_s
