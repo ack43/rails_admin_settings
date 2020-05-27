@@ -5,6 +5,7 @@ module RailsAdminSettings
     def self.included(base)
       if base.respond_to?(:rails_admin)
         base.rails_admin do
+          navigation_icon 'mdi mdi-settings-outline'
           navigation_label I18n.t('admin.settings.label')
 
           list do
