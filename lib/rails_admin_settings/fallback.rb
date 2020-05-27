@@ -5,6 +5,10 @@ module RailsAdminSettings
 
     DELEGATE = [:puts, :p, :block_given?].freeze
 
+    def object_id
+      __id__
+    end
+
     def initialize(ns, fb)
       @ns = ns
       @fb = fb

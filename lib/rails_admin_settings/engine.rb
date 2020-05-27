@@ -13,11 +13,11 @@ module RailsAdminSettings
 
 
     initializer 'RailsAdminSettings Install after_action' do |app|
-      require File.dirname(__FILE__) + '/../../app/models/rails_admin_settings/setting.rb'
+      # require File.dirname(__FILE__) + '/../../app/models/rails_admin_settings/setting.rb'
 
       if defined?(ActionController) and defined?(ActionController::Base)
         ActionController::Base.class_eval do
-          after_action { Settings.unload! }
+          after_action { Settings.unload! if defined?(Settings) }
         end
       end
 

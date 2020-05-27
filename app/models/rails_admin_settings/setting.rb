@@ -25,7 +25,9 @@ module RailsAdminSettings
     end
 
     scope :enabled, -> { where(enabled: true) }
-    scope :ns, ->(ns) { where(ns: ns) }
+    scope :ns, ->(ns) { 
+      where(ns: ns) 
+    }
     scope :loadable, -> { where(loadable: true) }
 
     include RailsAdminSettings::RequireHelpers

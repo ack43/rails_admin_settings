@@ -4,7 +4,7 @@ module RailsAdminSettings
     included do
       
       def cache_keys
-        @cache_keys ||= cache_keys_str.split(/\s+/).map { |k| k.strip }.reject { |k| k.blank? }
+        @cache_keys ||= (cache_keys_str || "").split(/\s+/).map { |k| k.strip }.reject { |k| k.blank? }
       end
       def add_cache_key(_key)
         unless has_cache_key?(_key)
